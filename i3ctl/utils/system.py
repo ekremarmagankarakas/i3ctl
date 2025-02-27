@@ -200,6 +200,8 @@ class SystemUtils:
                 "systemd": SystemUtils.check_command_exists("systemctl"),
                 "i3lock": SystemUtils.check_command_exists("i3lock"),
                 "xscreensaver": SystemUtils.check_command_exists("xscreensaver-command"),
+                "power-profiles-daemon": SystemUtils.check_command_exists("powerprofilesctl"),
+                "tlp": SystemUtils.check_command_exists("tlp") and SystemUtils.check_command_exists("tlp-stat"),
             },
             "network": {
                 "networkmanager": SystemUtils.check_command_exists("nmcli"),
@@ -280,9 +282,13 @@ def run_command(
     command: List[str], 
     capture_output: bool = True,
     check: bool = False,
+    timeout: Optional[float] = None,
+    capture_stderr: bool = True,  # Added parameter for backwards compatibility
 ) -> Tuple[int, Optional[str], Optional[str]]:
     """Backward compatibility function."""
-    return SystemUtils.run_command(command, capture_output, check)
+    # The capture_stderr parameter is ignored since we always capture stderr
+    # when capture_output is True in the new implementation
+    return SystemUtils.run_command(command, capture_output, check, timeout)
 
 def detect_tools() -> Dict[str, Dict[str, bool]]:
     """Backward compatibility function."""

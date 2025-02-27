@@ -78,7 +78,8 @@ i3ctl
 │    ├── hybrid-sleep [--now]
 │    ├── lock
 │    ├── status
-│    └── cancel
+│    ├── cancel
+│    └── profile [mode]       # Set power profile (performance|balanced|power-saver|auto)
 └── network
      ├── list [--rescan] [--saved]
      ├── connect <ssid> [--password <password>]
@@ -118,6 +119,8 @@ i3ctl startup add "compton --config ~/.config/compton.conf"
 # Power management
 i3ctl power suspend
 i3ctl power lock
+i3ctl power profile performance  # Set high-performance profile
+i3ctl power profile power-saver  # Set power-saving profile
 
 # Network management
 i3ctl network list

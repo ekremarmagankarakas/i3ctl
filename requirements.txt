@@ -1,0 +1,6 @@
+# Dependencies for i3ctl
+# argparse is included in the standard library since Python 2.7
+i3ipc
+# Additional dependencies
+python-xlib
+pydbus

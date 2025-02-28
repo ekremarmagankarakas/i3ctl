@@ -14,6 +14,8 @@ A comprehensive command-line utility for managing i3 window manager settings.
 - **Network Management**: Connect to and manage WiFi networks
 - **Bluetooth Management**: Connect to and manage Bluetooth devices
 - **Bar Management**: Control i3 bar visibility and i3status configuration
+- **Workspace Management**: Create, rename, and manage workspaces and layouts
+- **Keybinding Management**: View, add, and modify keyboard shortcuts
 
 ## Requirements
 
@@ -138,18 +140,40 @@ i3ctl
 │    ├── status
 │    ├── power {on,off}
 │    └── scan [--timeout <seconds>] [--continuous]
-└── bar
-     ├── show
-     ├── hide
-     ├── toggle
-     ├── mode {dock,hide,invisible}
-     ├── status
-     ├── config
-     │    ├── edit [--editor <editor>]
-     │    └── list
-     └── i3status
-          ├── reload
-          └── edit [--editor <editor>]
+├── bar
+│    ├── show
+│    ├── hide
+│    ├── toggle
+│    ├── mode {dock,hide,invisible}
+│    ├── status
+│    ├── config
+│    │    ├── edit [--editor <editor>]
+│    │    └── list
+│    └── i3status
+│         ├── reload
+│         └── edit [--editor <editor>]
+├── workspace
+│    ├── list
+│    ├── create <name>
+│    ├── rename <new_name> [--number <workspace>]
+│    ├── goto <name>
+│    ├── move <target>
+│    ├── output <workspace> <output>
+│    ├── assign <criteria> <workspace> [--add]
+│    ├── save <name> [--workspace <workspace>]
+│    ├── load <name> [--workspace <workspace>]
+│    ├── layouts
+│    └── delete <name>
+└── keybind
+     ├── list [--filter <keyword>] [--mod]
+     ├── add <keys> <command>
+     ├── remove <keys>
+     ├── show <keys>
+     ├── save <name>
+     ├── load <name>
+     ├── profiles
+     ├── delete <name>
+     └── conflicts
 ```
 
 ## Command Details
@@ -302,6 +326,44 @@ i3ctl bar i3status reload             # Reload i3status configuration
 i3ctl bar i3status edit               # Edit i3status configuration
 ```
 
+### Workspace Management
+
+Manage i3 workspaces and layouts:
+
+```bash
+i3ctl workspace list                  # List all workspaces
+i3ctl workspace create "3: Mail"      # Create a new workspace
+i3ctl workspace rename "3: Browser"   # Rename current workspace
+i3ctl workspace rename "4: Chat" --number 3  # Rename workspace 3
+i3ctl workspace goto 5                # Go to workspace 5
+i3ctl workspace move 2                # Move container to workspace 2
+i3ctl workspace output 1 HDMI-1       # Move workspace 1 to HDMI-1 output
+i3ctl workspace assign "class=Firefox" 2  # Assign Firefox to workspace 2
+i3ctl workspace assign "title=Terminal" "1: Terminal" --add  # Add to config
+i3ctl workspace save coding           # Save current workspace layout as "coding"
+i3ctl workspace load coding           # Load the "coding" workspace layout
+i3ctl workspace layouts               # List saved workspace layouts
+i3ctl workspace delete coding         # Delete the "coding" workspace layout
+```
+
+### Keybinding Management
+
+Manage i3 keyboard shortcuts:
+
+```bash
+i3ctl keybind list                    # List all keybindings
+i3ctl keybind list --mod              # List keybindings using mod key
+i3ctl keybind list --filter exec      # Filter by keyword "exec"
+i3ctl keybind add '$mod+b' 'exec firefox'  # Add new keybinding
+i3ctl keybind remove '$mod+b'         # Remove a keybinding
+i3ctl keybind show '$mod+Return'      # Show details for a keybinding
+i3ctl keybind save default            # Save current keybindings as profile
+i3ctl keybind load default            # Load saved keybinding profile
+i3ctl keybind profiles                # List saved keybinding profiles
+i3ctl keybind delete default          # Delete a keybinding profile
+i3ctl keybind conflicts               # Check for conflicting keybindings
+```
+
 ## Examples
 
 ```bash
@@ -348,6 +410,16 @@ i3ctl bluetooth connect 00:11:22:33:44:55
 i3ctl bar toggle
 i3ctl bar i3status edit
 i3ctl bar mode hide
+
+# Workspace management
+i3ctl workspace list
+i3ctl workspace create "3: Code"
+i3ctl workspace assign "class=Firefox" 2
+
+# Keybinding management
+i3ctl keybind list --mod
+i3ctl keybind add '$mod+b' 'exec firefox'
+i3ctl keybind conflicts
 ```
 
 ## Contributing

@@ -39,6 +39,8 @@ def get_command_classes():
     from i3ctl.commands.network import NetworkCommand
     from i3ctl.commands.bluetooth import BluetoothCommand
     from i3ctl.commands.bar import BarCommand
+    from i3ctl.commands.workspace import WorkspaceCommand
+    from i3ctl.commands.keybind import KeybindCommand
     
     return _commands
 

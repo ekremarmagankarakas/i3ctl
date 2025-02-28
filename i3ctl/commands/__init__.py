@@ -37,6 +37,8 @@ def get_command_classes():
     from i3ctl.commands.startup import StartupCommand
     from i3ctl.commands.power import PowerCommand
     from i3ctl.commands.network import NetworkCommand
+    from i3ctl.commands.bluetooth import BluetoothCommand
+    from i3ctl.commands.bar import BarCommand
     
     return _commands
 

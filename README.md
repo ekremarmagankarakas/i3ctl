@@ -12,6 +12,8 @@ A comprehensive command-line utility for managing i3 window manager settings.
 - **Startup Application Management**: Control autostart applications in i3
 - **Power Management**: Handle system power states and profiles
 - **Network Management**: Connect to and manage WiFi networks
+- **Bluetooth Management**: Connect to and manage Bluetooth devices
+- **Bar Management**: Control i3 bar visibility and i3status configuration
 
 ## Requirements
 
@@ -30,6 +32,7 @@ Depending on which features you use, you may need some of these system tools:
 - **setxkbmap**: For keyboard layout control
 - **systemctl**, **powerprofilesctl**, or **tlp**: For power management
 - **nmcli** (NetworkManager) or **iwctl** (iwd): For network management
+- **bluetoothctl** (bluez) or **blueman-manager**: For bluetooth management
 
 i3ctl will automatically detect which tools are available on your system and use the appropriate ones.
 
@@ -119,13 +122,34 @@ i3ctl
 │    ├── status
 │    ├── cancel
 │    └── profile [mode]       # Set power profile (performance|balanced|power-saver|auto)
-└── network
-     ├── list [--rescan] [--saved]
-     ├── connect <ssid> [--password <password>]
-     ├── disconnect
+├── network
+│    ├── list [--rescan] [--saved]
+│    ├── connect <ssid> [--password <password>]
+│    ├── disconnect
+│    ├── status
+│    ├── wifi {on,off}
+│    └── rescan
+├── bluetooth
+│    ├── list [--scan] [--paired]
+│    ├── connect <device>
+│    ├── disconnect <device>
+│    ├── pair <device>
+│    ├── remove <device>
+│    ├── status
+│    ├── power {on,off}
+│    └── scan [--timeout <seconds>] [--continuous]
+└── bar
+     ├── show
+     ├── hide
+     ├── toggle
+     ├── mode {dock,hide,invisible}
      ├── status
-     ├── wifi {on,off}
-     └── rescan
+     ├── config
+     │    ├── edit [--editor <editor>]
+     │    └── list
+     └── i3status
+          ├── reload
+          └── edit [--editor <editor>]
 ```
 
 ## Command Details
@@ -240,6 +264,44 @@ i3ctl network wifi off                # Turn WiFi off
 i3ctl network rescan                  # Rescan for networks
 ```
 
+### Bluetooth Management
+
+Manage bluetooth devices:
+
+```bash
+i3ctl bluetooth list                  # List available bluetooth devices
+i3ctl bluetooth list --paired         # List paired devices only
+i3ctl bluetooth connect 00:11:22:33:44:55   # Connect to device by MAC address
+i3ctl bluetooth connect "My Speaker"  # Connect to device by name
+i3ctl bluetooth disconnect 00:11:22:33:44:55  # Disconnect from device
+i3ctl bluetooth pair 00:11:22:33:44:55      # Pair with a device
+i3ctl bluetooth remove 00:11:22:33:44:55    # Remove a paired device
+i3ctl bluetooth status                # Show bluetooth status
+i3ctl bluetooth power on              # Turn bluetooth on
+i3ctl bluetooth power off             # Turn bluetooth off
+i3ctl bluetooth scan                  # Scan for bluetooth devices
+i3ctl bluetooth scan --timeout 30     # Scan for 30 seconds
+i3ctl bluetooth scan --continuous     # Scan until interrupted
+```
+
+### Bar Management
+
+Control i3 bar and i3status:
+
+```bash
+i3ctl bar show                        # Show the i3 bar
+i3ctl bar hide                        # Hide the i3 bar (press Mod key to show)
+i3ctl bar toggle                      # Toggle bar visibility
+i3ctl bar mode dock                   # Set bar to always visible
+i3ctl bar mode hide                   # Set bar to hide mode (shows on Mod key)
+i3ctl bar mode invisible              # Set bar to never show
+i3ctl bar status                      # Show bar status
+i3ctl bar config edit                 # Edit bar configuration in i3 config
+i3ctl bar config list                 # List bar configurations
+i3ctl bar i3status reload             # Reload i3status configuration
+i3ctl bar i3status edit               # Edit i3status configuration
+```
+
 ## Examples
 
 ```bash
@@ -276,6 +338,16 @@ i3ctl power profile power-saver  # Set power-saving profile
 # Network management
 i3ctl network list
 i3ctl network connect MyWiFi --password secret
+
+# Bluetooth management
+i3ctl bluetooth status
+i3ctl bluetooth scan
+i3ctl bluetooth connect 00:11:22:33:44:55
+
+# Bar and i3status management
+i3ctl bar toggle
+i3ctl bar i3status edit
+i3ctl bar mode hide
 ```
 
 ## Contributing

@@ -208,6 +208,11 @@ class SystemUtils:
                 "iwd": SystemUtils.check_command_exists("iwctl"),
                 "rfkill": SystemUtils.check_command_exists("rfkill"),
             },
+            "bluetooth": {
+                "bluetoothctl": SystemUtils.check_command_exists("bluetoothctl"),
+                "blueman": SystemUtils.check_command_exists("blueman-manager"),
+                "rfkill": SystemUtils.check_command_exists("rfkill"),
+            },
             "keyboard": {
                 "setxkbmap": SystemUtils.check_command_exists("setxkbmap"),
                 "localectl": SystemUtils.check_command_exists("localectl"),

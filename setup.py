@@ -30,6 +30,9 @@ setup(
         "python-xlib>=0.31",
         "pydbus>=0.6.0",
     ],
+    extras_require={
+        "gui": ["PyQt6>=6.5.0"],
+    },
     entry_points={
         "console_scripts": [
             "i3ctl=i3ctl.cli:main",

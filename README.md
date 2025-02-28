@@ -16,6 +16,7 @@ A comprehensive command-line utility for managing i3 window manager settings.
 - **Bar Management**: Control i3 bar visibility and i3status configuration
 - **Workspace Management**: Create, rename, and manage workspaces and layouts
 - **Keybinding Management**: View, add, and modify keyboard shortcuts
+- **Graphical User Interface**: Control all features through a user-friendly GUI
 
 ## Requirements
 
@@ -37,6 +38,11 @@ Depending on which features you use, you may need some of these system tools:
 - **bluetoothctl** (bluez) or **blueman-manager**: For bluetooth management
 
 i3ctl will automatically detect which tools are available on your system and use the appropriate ones.
+
+### Optional Dependencies
+
+- **PyQt6**: For the graphical user interface (GUI)
+  - Install with `pip install PyQt6` or `pip install -e ".[gui]"`
 
 ## Installation
 
@@ -364,6 +370,23 @@ i3ctl keybind delete default          # Delete a keybinding profile
 i3ctl keybind conflicts               # Check for conflicting keybindings
 ```
 
+### Graphical User Interface
+
+Launch i3ctl with a graphical interface:
+
+```bash
+i3ctl gui                             # Launch the graphical interface
+i3ctl gui --minimized                 # Start minimized to system tray
+```
+
+The graphical interface provides:
+- Tabbed interface for all i3ctl features
+- System tray icon with quick actions
+- Volume and brightness sliders
+- Visual workspace management
+- Configuration editor
+- Settings management
+
 ## Examples
 
 ```bash
@@ -420,6 +443,10 @@ i3ctl workspace assign "class=Firefox" 2
 i3ctl keybind list --mod
 i3ctl keybind add '$mod+b' 'exec firefox'
 i3ctl keybind conflicts
+
+# Graphical interface
+i3ctl gui                     # Launch the GUI
+i3ctl gui --minimized         # Start in system tray
 ```
 
 ## Contributing

@@ -41,6 +41,7 @@ def get_command_classes():
     from i3ctl.commands.bar import BarCommand
     from i3ctl.commands.workspace import WorkspaceCommand
     from i3ctl.commands.keybind import KeybindCommand
+    from i3ctl.commands.gui import GuiCommand
     
     return _commands
 

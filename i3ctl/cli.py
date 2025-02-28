@@ -13,7 +13,7 @@ from i3ctl import __version__
 from i3ctl.utils.logger import setup_logger, logger
 from i3ctl.utils.config import load_config, get_config_value
 from i3ctl.utils.system import detect_tools
-from i3ctl.commands import get_command_classes
+from i3ctl.commands import get_command_classes, _commands
 
 
 def setup_parser() -> argparse.ArgumentParser:
@@ -152,3 +152,49 @@ def main(argv: Optional[List[str]] = None) -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+def execute_command(args: List[str]) -> int:
+    """
+    Execute a command programmatically.
+    
+    This function is used by the GUI to execute commands.
+    
+    Args:
+        args: Command arguments (e.g., ["volume", "up", "5"])
+        
+    Returns:
+        Exit code from the command
+    """
+    try:
+        # Get the command name
+        if not args or not args[0]:
+            logger.error("No command specified")
+            return 1
+            
+        command_name = args[0]
+        command_args = args[1:]
+        
+        # Get the command class
+        commands = get_command_classes()
+        if command_name not in commands:
+            logger.error(f"Unknown command: {command_name}")
+            return 1
+            
+        # Create parser for this command
+        parser = argparse.ArgumentParser(description=f"Execute {command_name} command")
+        command_instance = commands[command_name]()
+        command_instance.setup_parser(parser.add_subparsers())
+        
+        # Parse arguments
+        parsed_args = parser.parse_args([command_name] + command_args)
+        
+        # Execute command
+        if hasattr(parsed_args, "func"):
+            return parsed_args.func(parsed_args) or 0
+        else:
+            logger.error(f"Command {command_name} has no handler")
+            return 1
+    except Exception as e:
+        logger.error(f"Failed to execute command: {e}")
+        return 1

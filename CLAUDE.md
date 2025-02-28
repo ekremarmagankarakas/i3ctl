@@ -1,12 +1,18 @@
 # i3ctl Development Guidelines
 
-## Build & Test Commands
+## Development Environment
 ```bash
-# Install dependencies
+# Activate the virtual environment
+source venv/bin/activate
+
+# The project is installed in development mode with pip install -e .
+# This means changes to the code will be immediately available
+
+# Install dependencies (if needed)
 pip install -r requirements.txt
 
 # Run the application
-python i3ctl.py [command] [subcommand] [args]
+i3ctl [command] [subcommand] [args]
 
 # Run tests
 pytest

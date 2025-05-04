@@ -158,7 +158,7 @@ def execute_command(args: List[str]) -> int:
     """
     Execute a command programmatically.
     
-    This function is used by the GUI to execute commands.
+    This function is used to execute commands programmatically.
     
     Args:
         args: Command arguments (e.g., ["volume", "up", "5"])

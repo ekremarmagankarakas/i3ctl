@@ -12,11 +12,11 @@ setup(
     name="i3ctl",
     version="0.1.0",
     author="i3ctl Developers",
-    author_email="user@example.com",
+    author_email="ekremarmagankarakas@gmail.com",
     description="Command line utility for managing i3 window manager settings",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/username/i3ctl",
+    url="https://github.com/ekremarmagankarakas/i3ctl",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -30,9 +30,7 @@ setup(
         "python-xlib>=0.31",
         "pydbus>=0.6.0",
     ],
-    extras_require={
-        "gui": ["PyQt6>=6.5.0"],
-    },
+    extras_require={},
     entry_points={
         "console_scripts": [
             "i3ctl=i3ctl.cli:main",

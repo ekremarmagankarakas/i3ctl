@@ -4,7 +4,7 @@ This document explains how the i3ctl package works, the relationships between cl
 
 ## Overview
 
-i3ctl is a command-line tool with GUI capabilities for controlling the i3 window manager. It provides commands for managing various aspects of the i3 environment, including:
+i3ctl is a command-line tool for controlling the i3 window manager. It provides commands for managing various aspects of the i3 environment, including:
 
 - Volume control
 - Brightness control
@@ -86,37 +86,6 @@ Taking the "volume" command as an example:
 7. The volume command is executed using system commands via `run_command()`
 8. Results are displayed to the user
 
-## GUI System
-
-The GUI is implemented using PyQt6:
-
-### Initialization Process:
-
-1. User runs `i3ctl gui`
-2. `GuiCommand.handle()` in `commands/gui.py` is called
-3. PyQt6 is imported and a QApplication is created
-4. `MainWindow` from `gui/main_window.py` is instantiated
-5. The main window loads available widgets and creates tabs
-6. A system tray icon is set up
-7. The application event loop starts
-
-### GUI to CLI Bridge:
-
-The GUI executes CLI commands via:
-
-- `execute_command()` in `cli.py` - Programmatically executes a command
-- `quick_action()` in `main_window.py` - Wrapper around `execute_command()`
-
-This allows the GUI to reuse all the command logic already implemented for the CLI.
-
-## Widget System
-
-GUI functionality is provided by widget classes in `i3ctl/gui/widgets/`:
-
-- Each widget represents a feature (volume, brightness, etc.)
-- Widgets are dynamically loaded in the main window
-- Missing widgets are replaced with placeholders
-
 ## File Relationships
 
 ```
@@ -132,10 +101,6 @@ i3ctl/
 │   ├── config.py        # Configuration management
 │   ├── logger.py        # Logging utilities
 │   └── system.py        # System interaction utilities
-└── gui/                 # GUI components
-    ├── main_window.py   # Main window implementation
-    ├── dialogs/         # Dialog windows
-    └── widgets/         # Feature-specific widgets
 ```
 
 ## Inter-module Dependencies
@@ -143,7 +108,6 @@ i3ctl/
 - `cli.py` depends on `commands/__init__.py` for command registration
 - All commands depend on `commands/base.py` for the base class
 - `utils/config.py` and `utils/logger.py` are used throughout the codebase
-- The GUI modules depend on PyQt6 and command implementations
 - Most commands depend on `utils/system.py` for executing system commands
 
 ## Program Execution Flow Example
@@ -157,5 +121,3 @@ Let's take an example of `i3ctl volume up 5`:
 5. `_use_pulseaudio()` or `_use_alsa()` is called with "up" action and "5" as value
 6. The appropriate system command is executed (e.g., `pactl set-sink-volume @DEFAULT_SINK@ +5%`)
 7. Output is displayed to the user
-
-The GUI follows a similar pattern but through the `execute_command()` function rather than the main CLI entry point.
